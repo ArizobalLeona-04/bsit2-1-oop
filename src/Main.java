@@ -1,63 +1,30 @@
-import java.util.Scanner;
-
-public class Student {
+public class Main {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+        // Create 3 Student objects
+        Student s1 = new Student("Alice Reyes", 19, "BSIT", 85, 90, 88);
+        Student s2 = new Student("Bryan Cruz", 20, "BSCS", 65, 70, 60);
+        Student s3 = new Student("Carla Dela Cruz", 18, "BSCE", 50, 55, 58);
 
-        System.out.print("Student1");
-        String student1 = scanner.nextLine();
+        // Array of students
+        Student[] students = {s1, s2, s3};
 
-        System.out.print("Name:");
-        String name = scanner.nextLine();
+        // Counter for passing students
+        int passingCount = 0;
 
-        System.out.print("Age: ");
-        String age = scanner.nextLine();
+        // Display info
+        for (Student s : students) {
+            s.displayInfo();
+            System.out.printf("Average Grade: %.2f\n", s.calculateAverage());
+            System.out.println("Letter Grade : " + s.getLetterGrade());
+            if (s.isPassing()) {
+                System.out.println("Status       : PASSING\n");
+                passingCount++;
+            } else {
+                System.out.println("Status       : FAILING\n");
+            }
+        }
 
-        System.out.print("Course: ");
-        String course = scanner.nextLine();
-
-        System.out.print("Grades: ");
-        String grades = scanner.nextLine();
-
-        System.out.print("Average: ");
-        String average = scanner.nextLine();
-
-        System.out.print("Letter Grade: ");
-        String lettergrade = scanner.nextLine();
-
-        System.out.print("Status: ");
-        String status = scanner.nextLine();
-
-
-        System.out.println("Student1"  );
-        System.out.println("Name: " + name );
-        System.out.println("Age: " + age);
-        System.out.println("Course: " + course);
-        System.out.println("Grades: " + grades );
-        System.out.println("Average: " + average);
-        System.out.println("Letter Grade: " + lettergrade);
-
-
-        System.out.print("\nSummary : I give up na sir TvT ");
-        int Name = scanner.nextInt();
-
-        System.out.print("Age: ");
-        int Age = scanner.nextInt();
-
-
-        System.out.print("Course: ");
-        int Course = scanner.nextInt();
-
-
-
-
-        int total = Name + Age + Course ;
-        double Grades = (double) total / 400 * 100;
-        String remarks = Grades >= 75 ? "PASSED" : "FAILED";
-
-
-
-
-        scanner.close();
+        // Summary
+        System.out.println("Total number of students passing: " + passingCount);
     }
 }
