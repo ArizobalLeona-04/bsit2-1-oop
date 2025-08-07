@@ -1,29 +1,30 @@
-### IntelliJ IDEA ###
-out/
-!**/src/main/**/out/
-!**/src/test/**/out/
+public class Main {
+    public static void main(String[] args) {
+        
+        Student s1 = new Student("Alice Reyes", 19, "BSIT", 85, 90, 88);
+        Student s2 = new Student("Bryan Cruz", 20, "BSCS", 65, 70, 60);
+        Student s3 = new Student("Carla Dela Cruz", 18, "BSCE", 50, 55, 58);
 
-### Eclipse ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-bin/
-!**/src/main/**/bin/
-!**/src/test/**/bin/
+        
+        Student[] students = {s1, s2, s3};
 
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
+      
+        int passingCount = 0;
 
-### VS Code ###
-.vscode/
+        
+        for (Student s : students) {
+            s.displayInfo();
+            System.out.printf("Average Grade: %.2f\n", s.calculateAverage());
+            System.out.println("Letter Grade : " + s.getLetterGrade());
+            if (s.isPassing()) {
+                System.out.println("Status       : PASSING\n");
+                passingCount++;
+            } else {
+                System.out.println("Status       : FAILING\n");
+            }
+        }
 
-### Mac OS ###
-.DS_Store
+      
+        System.out.println("Total number of students passing: " + passingCount);
+    }
+}
