@@ -1,80 +1,123 @@
-import java.util.*;
+import java.util.ArrayList;
 
-public class BookRecordSystem {
+class Book {
+    private String title;
+    private String author;
+    private ArrayList<Integer> ratings;
+    private static int totalBooks = 0; 
 
 
-    public int calculateEngagement(int... interactions) {
-        if (interactions == null || interactions.length == 0) {
-            return 0;
+    public Book(String title, String author) {
+        this.title = title;
+        this.author = author;
+        this.ratings = new ArrayList<>();
+        totalBooks++; 
+    }
+
+    
+    public void addRating(int rating) throws IllegalArgumentException {
+        if (rating < 1 || rating > 5) {
+            throw new IllegalArgumentException("Invalid rating: must be 1-5 stars");
         }
-        int total = 0;
-        for (int value : interactions) {
-            total += value;
+        ratings.add(rating);
+    }
+
+    
+    public double getAverageRating() {
+        if (ratings.isEmpty()) {
+            return 0.0;
         }
-        return total;
+        double sum = 0;
+        for (int r : ratings) {
+            sum += r;
+        }
+        return sum / ratings.size();
     }
 
+    
+    public String getPopularityLevel() {
+        if (ratings.isEmpty()) {
+            return "No ratings";
+        }
 
-    public String getRating(int rating) {
-        if (rating >= 1000) {
-            return "Viral";
-        } else if (rating >= 500) {
-            return "Average";
-        } else if (rating >= 100) {
-            return "Good";
-        } else {
-            return "Poor";
+        double avg = getAverageRating();
+        if (avg >= 4.5) return "Excellent";
+        else if (avg >= 3.5) return "Good";
+        else if (avg >= 2.5) return "Average";
+        else if (avg >= 1.5) return "Poor";
+        else return "Terrible";
+    }
+
+    // Add multiple ratings (varargs)
+    public void addMultipleRatings(int... ratings) {
+        for (int r : ratings) {
+            try {
+                addRating(r);
+            } catch (IllegalArgumentException e) {
+                System.out.println("Error adding rating " + r + " to \"" + title + "\": " + e.getMessage());
+            }
         }
     }
 
-
-    public void displayPostStats(String postTitle, int engagementScore) {
-        System.out.println("Adding books and Rating... ");
-
+    
+    public static int getTotalBooks() {
+        return totalBooks;
     }
 
-    public void displayPostStats(String postTitle, int engagementScore, String category) {
-        System.out.println("Adding books and Rating... ");
-        System.out.println("Rating 4 added successfully ");
-        System.out.println("Rating added: 5,4,3,5 ");
+    
+    public String getTitle() { return title; }
+    public String getAuthor() { return author; }
+
+    
+    @Override
+    public String toString() {
+        return "Book: \"" + title + "\" by " + author +
+               ", Average Rating: " + String.format("%.2f", getAverageRating()) +
+               ", Level: " + getPopularityLevel();
     }
+}
 
 
-
+public class TestBook {
     public static void main(String[] args) {
-        BookRecordSystem pm = new BookRecordSystem();
+        
+        Book book1 = new Book("Java Programming", "James Gosling");
+        Book book2 = new Book("Effective Communication", "Dale Carnegie");
+        Book book3 = new Book("History of Science", "Isaac Newton");
 
-        System.out.println("═══ Book Record System ═══");
+        
+        try {
+            book1.addRating(4);
+            book2.addRating(5);
+            book3.addRating(3);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
 
+        
+        book1.addMultipleRatings(5, 4, 3, 5);
+        book2.addMultipleRatings(5, 6, 0, 4); 
+        book3.addMultipleRatings(2, 3, 4);
 
-        String postTitle = "Java Programming Tips";
-        int engagement = pm.calculateEngagement(150, 75, 25);
-        String category = pm.getRating(engagement);
+        
+        System.out.println("\n=== Book Records ===");
+        System.out.println(book1);
+        System.out.println(book2);
+        System.out.println(book3);
 
+        
+        System.out.println("\nTotal Books Created: " + Book.getTotalBooks());
 
-        pm.displayPostStats(postTitle, engagement, category);
+        
+        Book bestBook = book1;
+        if (book2.getAverageRating() > bestBook.getAverageRating()) {
+            bestBook = book2;
+        }
+        if (book3.getAverageRating() > bestBook.getAverageRating()) {
+            bestBook = book3;
+        }
 
-        System.out.println();
-
-
-
-        System.out.println("Error: Invalid rating: must be 1-5 stars " );
-
-
-        ArrayList<String> books = new ArrayList<>();
-        books.add("Invalid rating: must be 1-5 stars");
-
-
-        System.out.println("Books Results: ");
-
-
-        System.out.println("Book: Java Programming by John Smith, Average Rating: 4.0, Level: Good");
-        System.out.println("Book: Data Structure by Alice Brown, Average Rating: 4.25, Level: Good ");
-        System.out.println("Book: Web Development by Bob Wilson, Average Rating: 3.2, Level: Average");
-
-
-        System.out.println("Total Books Created: 3 " );
-        System.out.println("Highest rated books: Data Structure by Alice Brown (4.25)  " );
+        System.out.println("\nBook with Highest Average Rating:");
+        System.out.println(bestBook);
     }
-
 }
