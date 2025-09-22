@@ -11,7 +11,7 @@ public class Book {
         setAuthor(author);
         setIsbn(isbn);
         setYearPublished(yearPublished);
-        this.isAvailable = true; // default
+        this.isAvailable = true; 
     }
 
 
